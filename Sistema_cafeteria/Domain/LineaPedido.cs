@@ -23,7 +23,7 @@ namespace Sistema_Cafeteria.Domain
             if (cantidad <= 0)   throw new ArgumentException("Cantidad Inválida"); // Lanzar excepcion si el dato es invalido
             Cantidad = cantidad; // Asignacion de valor a la propiedad
         }
-        // 👇 Sobrescribimos ToString para mejorar la impresión en consola
+        //Se Sobrescribe ToString para mejorar la impresión en consola
         public override string ToString()
         {
             return $"{Producto.Nombre} x{Cantidad} = {Subtotal.ToString("C")}";

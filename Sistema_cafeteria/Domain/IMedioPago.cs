@@ -9,7 +9,7 @@ namespace Sistema_Cafeteria.Domain
     public interface IMedioPago
     {
         //Propiedad Descripción
-        string Descripcion { get; } // Propiedad autoimplementada con acceso publico para lectura
+        string Descripcion { get; }
 
         // Método Autorizar
 

@@ -31,6 +31,6 @@ namespace Sistema_Cafeteria.Domain
 
         // Metodo Capturar
 
-        public void Capturar(decimal monto) { /* nada que hacer */ }
+        public void Capturar(decimal monto) {  }
     }
 }

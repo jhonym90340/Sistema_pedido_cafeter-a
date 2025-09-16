@@ -9,16 +9,10 @@ using System.Threading.Tasks; // Programacion asincrona y paralela con Task y as
 namespace Sistema_Cafeteria.Domain // Dominio de la aplicacion y sirve para organizar  el codigo en modulos o carpetas logicas
 {
     // Definicion de la clase Persona como abstracta para que no pueda ser instanciada directamente
-    public abstract class Persona // Public es accesible desde cualquier parte del programa
-                                  //private class Persona // Private solo es accesible dentro de la misma clase
-                                  //protected class Persona // Partial permite dividir la definicion de una clase en varios archivos
-                                  //internal class Persona // Internal es accesible solo dentro del mismo ensamblado o proyecto
-                                  //protected internal class Persona // Protegido e interno, accesible dentro del mismo ensamblado o en clases derivadas
-                                  //private protected class Persona // Accesible dentro de la misma clase y en clases derivadas dentro del mismo ensamblado
+    public abstract class Persona 
 
 {
-        //Encapsulamiento: datos protegidos con propiedades
-        // Propiedades autoimplementadas
+       
         // Encapsular datos de la persona
     public string Documento { get; } // Propiedad autoimplementada con acceso publico para lectura 
     public string Nombre { get; private set; } // Propiedad con acceso publico para lectura y privado para escritura

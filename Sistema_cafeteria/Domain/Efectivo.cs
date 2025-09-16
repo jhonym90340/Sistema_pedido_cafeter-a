@@ -10,7 +10,7 @@ namespace Sistema_Cafeteria.Domain
     { 
         // Propiedad Descripción
 
-        public string Descripcion => "Efectivo"; // Propiedad autoimplementada con acceso publico para lectura
+        public string Descripcion => "Efectivo"; 
 
         // Metodo Autorizar
 

@@ -50,7 +50,7 @@ namespace Sistema_Cafeteria
                     case "3":
                         ListarInventario();
                         Console.WriteLine("\nPresione cualquier tecla para volver al menú principal..."); // 👈 LÍNEA AGREGADA
-                        Console.ReadKey(); // 👈 LÍNEA AGREGADA
+                        Console.ReadKey(); 
                         break;
                     case "4":
                         AgregarProducto();
@@ -125,21 +125,21 @@ namespace Sistema_Cafeteria
                             try
                             {
                                 nuevoPedido.AgregarLinea(productoSeleccionado, cantidad);
-                                Console.WriteLine("✔️ Producto agregado. Presione cualquier tecla para agregar otro.");
+                                Console.WriteLine("Producto agregado. Presione cualquier tecla para agregar otro.");
                             }
                             catch (InvalidOperationException ex)
                             {
-                                Console.WriteLine($"❌ Error: {ex.Message}");
+                                Console.WriteLine($"Error: {ex.Message}");
                             }
                         }
                         else
                         {
-                            Console.WriteLine("⚠️ Cantidad no válida.");
+                            Console.WriteLine("Cantidad no válida.");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("⚠️ Código de producto no válido.");
+                        Console.WriteLine("Código de producto no válido.");
                     }
                 }
                 Console.ReadKey();
@@ -147,12 +147,12 @@ namespace Sistema_Cafeteria
 
             if (nuevoPedido.Lineas.Any())
             {
-                // 👇 1. Aplicamos la estrategia de descuento
+                //  estrategia de descuento
                 // Esta línea detecta si la cantidad de productos es mayor a 6 y calcula el nuevo total
                 var estrategiaDescuento = new DescuentoPorCantidadStrategy(cantidadMinima: 6, porcentajeDescuento: 0.10m);
                 var totalConDescuento = estrategiaDescuento.CalcularTotal(nuevoPedido);
 
-                // 2. Calculamos el valor del descuento
+                //  Calcula el valor del descuento
                 var descuentoAplicado = nuevoPedido.Total - totalConDescuento;
 
                 Console.WriteLine("\n--- RESUMEN DEL PEDIDO ---");
@@ -166,16 +166,16 @@ namespace Sistema_Cafeteria
 
                 Console.WriteLine("--------------------------");
 
-                // 👇 3. Imprimimos el subtotal SIN el descuento
+                // Imprime subtotal SIN el descuento
                 Console.WriteLine($"Subtotal: {nuevoPedido.Total.ToString("C")}");
 
-                // 👇 4. Imprimimos el descuento SOLO si fue aplicado
+                //  Imprime el descuento SOLO si fue aplicado
                 if (descuentoAplicado > 0)
                 {
                     Console.WriteLine($"Descuento (10% por 6+ productos): -{descuentoAplicado.ToString("C")}");
                 }
 
-                // 👇 5. Imprimimos el total final, que ya tiene el descuento
+                // Imprime el total final, que ya tiene el descuento
                 Console.WriteLine($"Total Neto: {totalConDescuento.ToString("C")}");
                 Console.WriteLine("--------------------------\n");
 
@@ -187,17 +187,17 @@ namespace Sistema_Cafeteria
             new Transferencia("Bancolombia", $"TRX-{Guid.NewGuid().ToString().Substring(0, 8)}")
         };
 
-                // 👇 6. Pasamos el total ya descontado al método de pago
+                //  Pasamos el total ya descontado al método de pago
                 var pagoExitoso = SeleccionarYProcesarPago(totalConDescuento, mediosDePago);
 
                 if (pagoExitoso)
                 {
                     _repositorioPedidos.Guardar(nuevoPedido);
-                    Console.WriteLine($"\n✅ Pedido #{nuevoPedido.Id} creado y pagado exitosamente.");
+                    Console.WriteLine($"\n Pedido #{nuevoPedido.Id} creado y pagado exitosamente.");
                 }
                 else
                 {
-                    Console.WriteLine("\n❌ El pedido no pudo ser procesado. Vuelva a intentar.");
+                    Console.WriteLine("\n El pedido no pudo ser procesado. Vuelva a intentar.");
                 }
             }
             else
@@ -284,7 +284,7 @@ namespace Sistema_Cafeteria
         private static void ManejarAlertaStock(object? sender, string codigoProducto)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\n🚨 ALERTA DE STOCK: El producto '{codigoProducto}' está por debajo del umbral.");
+            Console.WriteLine($"\n ALERTA DE STOCK: El producto '{codigoProducto}' está por debajo del umbral.");
             Console.ResetColor();
         }
 
@@ -308,24 +308,24 @@ namespace Sistema_Cafeteria
                     try
                     {
                         medioElegido.Capturar(total);
-                        Console.WriteLine($"\n✔️ Pago de {total.ToString("C")} autorizado y capturado con {medioElegido.Descripcion}.");
+                        Console.WriteLine($"\n Pago de {total.ToString("C")} autorizado y capturado con {medioElegido.Descripcion}.");
                         return true;
                     }
                     catch (InvalidOperationException ex)
                     {
-                        Console.WriteLine($"\n❌ Error en la captura: {ex.Message}");
+                        Console.WriteLine($"\n Error en la captura: {ex.Message}");
                         return false;
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"\n❌ No se pudo autorizar el pago con {medioElegido.Descripcion}.");
+                    Console.WriteLine($"\n No se pudo autorizar el pago con {medioElegido.Descripcion}.");
                     return false;
                 }
             }
             else
             {
-                Console.WriteLine("\n⚠️ Opción de pago no válida.");
+                Console.WriteLine("\n Opción de pago no válida.");
                 return false;
             }
         }
@@ -339,7 +339,7 @@ namespace Sistema_Cafeteria
 
             if (_productos.Any(p => p.Codigo == codigo))
             {
-                Console.WriteLine("❌ Error: Ya existe un producto con este código. Presione cualquier tecla...");
+                Console.WriteLine(" Error: Ya existe un producto con este código. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
@@ -349,14 +349,14 @@ namespace Sistema_Cafeteria
             Console.Write("Ingrese precio: ");
             if (!decimal.TryParse(Console.ReadLine(), out decimal precio) || precio <= 0)
             {
-                Console.WriteLine("❌ Precio no válido. Presione cualquier tecla...");
+                Console.WriteLine(" Precio no válido. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
             Console.Write("Ingrese stock inicial: ");
             if (!int.TryParse(Console.ReadLine(), out int stock) || stock < 0)
             {
-                Console.WriteLine("❌ Stock no válido. Presione cualquier tecla...");
+                Console.WriteLine(" Stock no válido. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
@@ -365,7 +365,7 @@ namespace Sistema_Cafeteria
             nuevoProducto.StockBajo += ManejarAlertaStock;
             _productos.Add(nuevoProducto);
 
-            Console.WriteLine("✅ Producto agregado con éxito. Presione cualquier tecla...");
+            Console.WriteLine(" Producto agregado con éxito. Presione cualquier tecla...");
             Console.ReadKey();
         }
 
@@ -381,7 +381,7 @@ namespace Sistema_Cafeteria
 
             if (producto == null)
             {
-                Console.WriteLine("❌ Producto no encontrado. Presione cualquier tecla...");
+                Console.WriteLine(" Producto no encontrado. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
@@ -398,7 +398,7 @@ namespace Sistema_Cafeteria
                 producto.CambiarPrecio(nuevoPrecio);
             }
 
-            Console.WriteLine("✅ Producto modificado con éxito. Presione cualquier tecla...");
+            Console.WriteLine(" Producto modificado con éxito. Presione cualquier tecla...");
             Console.ReadKey();
         }
 
@@ -414,7 +414,7 @@ namespace Sistema_Cafeteria
 
             if (producto == null)
             {
-                Console.WriteLine("❌ Producto no encontrado. Presione cualquier tecla...");
+                Console.WriteLine(" Producto no encontrado. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
@@ -424,11 +424,11 @@ namespace Sistema_Cafeteria
             if (int.TryParse(Console.ReadLine(), out int cantidad) && cantidad > 0)
             {
                 producto.Reponer(cantidad);
-                Console.WriteLine("✅ Stock repuesto con éxito. Presione cualquier tecla...");
+                Console.WriteLine(" Stock repuesto con éxito. Presione cualquier tecla...");
             }
             else
             {
-                Console.WriteLine("❌ Cantidad no válida. Presione cualquier tecla...");
+                Console.WriteLine(" Cantidad no válida. Presione cualquier tecla...");
             }
             Console.ReadKey();
         }
@@ -445,13 +445,13 @@ namespace Sistema_Cafeteria
 
             if (producto == null)
             {
-                Console.WriteLine("❌ Producto no encontrado. Presione cualquier tecla...");
+                Console.WriteLine(" Producto no encontrado. Presione cualquier tecla...");
                 Console.ReadKey();
                 return;
             }
 
             _productos.Remove(producto);
-            Console.WriteLine($"✅ Producto '{producto.Nombre}' eliminado con éxito. Presione cualquier tecla...");
+            Console.WriteLine($" Producto '{producto.Nombre}' eliminado con éxito. Presione cualquier tecla...");
             Console.ReadKey();
         }
     }

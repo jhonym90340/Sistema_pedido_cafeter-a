@@ -9,7 +9,7 @@ namespace Sistema_Cafeteria.Domain
     public class Cliente : Persona
     {
         // Propiedad Email 
-        public string Email { get; private set; } // Propiedad con acceso publico para lectura y privado para escritura
+        public string Email { get; private set; } 
 
         // Constructor
         public Cliente(string documento, string nombre, string email) : base(documento, nombre) // Constructor publico que llama al constructor base de Persona
