@@ -1,6 +1,4 @@
-﻿
-
-using Sistema_Cafeteria.Domain;
+﻿using Sistema_Cafeteria.Domain;
 using Sistema_Cafeteria.Pricing;
 using Sistema_Cafeteria.Repositories;
 using System;
@@ -14,6 +12,8 @@ namespace Sistema_Cafeteria
     {
         private static List<Producto> _productos = new();
         private static RepositorioPedidosMemoria _repositorioPedidos = new();
+         private static IRepositorioEmpleados _repositorioEmpleados = new RepositorioEmpleadosMemoria();
+        private static Empleado? _empleadoLogueado = null; // Guarda el empleado que inicie sesión
 
         public static void Main()
         {
@@ -23,56 +23,99 @@ namespace Sistema_Cafeteria
 
             InicializarProductos();
 
-            while (true)
+           
+            if (Login())
             {
-                Console.Clear();
-                Console.WriteLine("=== Sistema de Cafetería ===");
-                Console.WriteLine("1. Crear nuevo pedido");
-                Console.WriteLine("2. Listar pedidos existentes");
-                Console.WriteLine("3. Listar inventario");
-                Console.WriteLine("4. Agregar nuevo producto al inventario");
-                Console.WriteLine("5. Modificar producto existente");
-                Console.WriteLine("6. Reponer stock de un producto");
-                Console.WriteLine("7. Eliminar producto");
-                Console.WriteLine("8. Salir");
-                Console.Write("\nSeleccione una opción: ");
-
-                var opcion = Console.ReadLine();
-
-                switch (opcion)
+                while (true)
                 {
-                    case "1":
-                        CrearPedido();
-                        break;
-                    case "2":
-                        ListarPedidos();
-                        break;
-                    case "3":
-                        ListarInventario();
-                        Console.WriteLine("\nPresione cualquier tecla para volver al menú principal..."); // 👈 LÍNEA AGREGADA
-                        Console.ReadKey(); 
-                        break;
-                    case "4":
-                        AgregarProducto();
-                        break;
-                    case "5":
-                        ModificarProducto();
-                        break;
-                    case "6":
-                        ReponerStock();
-                        break;
-                    case "7":
-                        EliminarProducto();
-                        break;
-                    case "8":
-                        return;
-                    default:
-                        Console.WriteLine("Opción no válida. Presione cualquier tecla para continuar.");
-                        Console.ReadKey();
-                        break;
+                    Console.Clear();
+                    Console.WriteLine("=== Sistema de Cafetería ===");
+                    Console.WriteLine($"Empleado logueado: {_empleadoLogueado.Nombre} ({_empleadoLogueado.Cargo})\n");
+                    Console.WriteLine("1. Crear nuevo pedido");
+                    Console.WriteLine("2. Listar pedidos existentes");
+                    Console.WriteLine("3. Listar inventario");
+                    Console.WriteLine("4. Agregar nuevo producto al inventario");
+                    Console.WriteLine("5. Modificar producto existente");
+                    Console.WriteLine("6. Reponer stock de un producto");
+                    Console.WriteLine("7. Eliminar producto");
+                    Console.WriteLine("8. Salir");
+                    Console.Write("\nSeleccione una opción: ");
+
+                    var opcion = Console.ReadLine();
+
+                    switch (opcion)
+                    {
+                        case "1":
+                            CrearPedido();
+                            break;
+                        case "2":
+                            ListarPedidos();
+                            break;
+                        case "3":
+                            ListarInventario();
+                            Console.WriteLine("\nPresione cualquier tecla para volver al menú principal...");
+                            Console.ReadKey();
+                            break;
+                        case "4":
+                            AgregarProducto();
+                            break;
+                        case "5":
+                            ModificarProducto();
+                            break;
+                        case "6":
+                            ReponerStock();
+                            break;
+                        case "7":
+                            EliminarProducto();
+                            break;
+                        case "8":
+                            return;
+                        default:
+                            Console.WriteLine("Opción no válida. Presione cualquier tecla para continuar.");
+                            Console.ReadKey();
+                            break;
+                    }
                 }
             }
+            else
+            {
+                Console.WriteLine("\n❌ No se pudo iniciar sesión. La aplicación se cerrará.");
+                Console.ReadKey();
+            }
         }
+
+        private static bool Login()
+        {
+            Console.WriteLine("--- INICIO DE SESIÓN ---");
+            Console.Write("Ingrese su documento de empleado: ");
+            var documento = Console.ReadLine()?.Trim() ?? string.Empty;
+
+           
+            Console.Write("Ingrese su contraseña: ");
+            var clave = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            var empleadoEncontrado = _repositorioEmpleados.ObtenerPorDocumento(documento);
+
+          
+            if (empleadoEncontrado != null && empleadoEncontrado.Clave == clave)
+            {
+                _empleadoLogueado = empleadoEncontrado;
+                Console.Clear();
+                Console.WriteLine($"\n✅ Bienvenido, {_empleadoLogueado.Nombre}. ¡Inicio de sesión exitoso!");
+                Console.WriteLine($"Su cargo es: {_empleadoLogueado.Cargo}");
+                return true;
+            }
+
+            Console.WriteLine("\nCredenciales incorrectas.");
+            return false;
+        }
+
+
+
+
+
+
+
 
         private static void InicializarProductos()
         {
@@ -85,8 +128,6 @@ namespace Sistema_Cafeteria
                 producto.StockBajo += ManejarAlertaStock;
             }
         }
-
-
 
         private static void CrearPedido()
         {
@@ -209,10 +250,6 @@ namespace Sistema_Cafeteria
             Console.ReadKey();
         }
 
-
-
-
-
         private static void ListarPedidos()
         {
             Console.Clear();
@@ -256,12 +293,6 @@ namespace Sistema_Cafeteria
             Console.WriteLine("\nPresione cualquier tecla para volver al menú principal...");
             Console.ReadKey();
         }
-
-
-
-
-
-
 
         private static void ListarInventario()
         {

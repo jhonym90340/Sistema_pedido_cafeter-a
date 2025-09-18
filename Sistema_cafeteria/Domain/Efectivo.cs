@@ -17,7 +17,7 @@ namespace Sistema_Cafeteria.Domain
         public bool Autorizar(decimal monto) => monto > 0; // Metodo para autorizar el pago
 
         // Metodo Capturar
-        public void Capturar(decimal monto) { /* nada que hacer */}
+        public void Capturar(decimal monto) {}
     }
 }
 

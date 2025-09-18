@@ -24,7 +24,7 @@ namespace Sistema_Cafeteria.Pricing
 
         public decimal CalcularTotal(Pedido pedido)
         {
-            // 👇 Esto es lo que debe cambiar: sumar todas las cantidades de las líneas del pedido.
+            
             int totalItems = pedido.Lineas.Sum(l => l.Cantidad);
 
             if (totalItems >= _cantidadMinima)

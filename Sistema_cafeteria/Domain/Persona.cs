@@ -6,7 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text; // Utilidades de texto y codificacion
 using System.Threading.Tasks; // Programacion asincrona y paralela con Task y async/await
 
-namespace Sistema_Cafeteria.Domain // Dominio de la aplicacion y sirve para organizar  el codigo en modulos o carpetas logicas
+namespace Sistema_Cafeteria.Domain 
 {
     // Definicion de la clase Persona como abstracta para que no pueda ser instanciada directamente
     public abstract class Persona 

@@ -9,7 +9,7 @@ namespace Sistema_Cafeteria.Pricing
 {
     public interface IPricingStrategy
     {
-        // El método se declara SIN un cuerpo. Solo la firma del método.
+        // El método se declara SIN un cuerpo. 
         decimal CalcularTotal(Pedido pedido);
     }
 }
